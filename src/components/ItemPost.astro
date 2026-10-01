@@ -8,7 +8,7 @@ const { titulo, data, categoria, resumo } = post.data;
 const url = `/posts/${post.id}/`;
 ---
 <article class:list={['item', { destaque }]}>
-  <a href={url} class="capa-link" tabindex="-1" aria-hidden="true"><Capa categoria={categoria} numero={numero} grande={destaque} /></a>
+  <a href={url} class="capa-link" tabindex="-1" aria-hidden="true"><Capa categoria={categoria} numero={numero} grande={destaque} slug={post.id} /></a>
   <div class="texto">
     <p class="rotulo meta">
       <a href={`/categorias/${categoria}/`}>{CATEGORIAS[categoria].nome}</a>
