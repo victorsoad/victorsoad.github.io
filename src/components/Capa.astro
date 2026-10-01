@@ -2,8 +2,12 @@
 // Capa tipográfica gerada para cada post: fundo cinza claro, linhas finas
 // e uma forma geométrica em amarelo que muda conforme a categoria.
 import { CATEGORIAS, type Categoria } from '../site';
-interface Props { categoria: Categoria; numero: number; grande?: boolean }
-const { categoria, numero, grande = false } = Astro.props;
+interface Props { categoria: Categoria; numero: number; grande?: boolean; slug?: string }
+const { categoria, numero, grande = false, slug } = Astro.props;
+// Ilustração própria do post: src/capas/<slug>.svg (fundo transparente, viewBox 0 0 400 300).
+// Se não existir, usa a forma geométrica da categoria.
+const ilustracoes = import.meta.glob('../capas/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const propria = slug ? ilustracoes[`../capas/${slug}.svg`] : undefined;
 const n = String(numero).padStart(2, '0');
 ---
 <div class:list={['capa', { grande }]} aria-hidden="true">
@@ -15,23 +19,24 @@ const n = String(numero).padStart(2, '0');
     </defs>
     <rect width="400" height="300" fill="#EEEEEA" />
     <rect width="400" height="300" fill={`url(#p-${categoria}-${numero})`} />
-    {categoria === 'ia' && (
+    {propria && <g set:html={propria.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')} />}
+    {!propria && categoria === 'ia' && (
       <g><circle cx="270" cy="140" r="78" class="ac" /><circle cx="270" cy="140" r="104" fill="none" stroke="#0E0E0E" /></g>
     )}
-    {categoria === 'desenvolvimento' && (
+    {!propria && categoria === 'desenvolvimento' && (
       <g><rect x="200" y="70" width="120" height="120" class="ac" /><rect x="220" y="90" width="120" height="120" fill="none" stroke="#0E0E0E" /></g>
     )}
-    {categoria === 'fintech' && (
+    {!propria && categoria === 'fintech' && (
       <g><path d="M190 230V150a80 80 0 0 1 160 0v80z" class="ac" /><line x1="150" y1="230" x2="380" y2="230" stroke="#0E0E0E" /></g>
     )}
-    {categoria === 'carreira' && (
+    {!propria && categoria === 'carreira' && (
       <g>
         <rect x="200" y="170" width="40" height="60" class="ac" /><rect x="240" y="130" width="40" height="100" class="ac" />
         <rect x="280" y="90" width="40" height="140" class="ac" />
         <polyline points="190,230 190,170 230,170 230,130 270,130 270,90 330,90" fill="none" stroke="#0E0E0E" />
       </g>
     )}
-    {categoria === 'regulatorio' && (
+    {!propria && categoria === 'regulatorio' && (
       <g>
         <rect x="210" y="70" width="110" height="150" class="ac" />
         {[100, 120, 140, 160, 180].map((y) => <line x1="228" y1={y} x2="302" y2={y} stroke="#0E0E0E" />)}
@@ -45,6 +50,7 @@ const n = String(numero).padStart(2, '0');
 <style>
   .capa { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--cinza-claro); }
   .ac { fill: var(--acento); }
+  .capa :global(text) { font-family: var(--mono); }
   svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   .num, .cat { position: absolute; left: 0.9rem; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
   .num { top: 0.8rem; }
