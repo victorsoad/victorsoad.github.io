@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, CATEGORIAS } from '../site';
+---
+<Base titulo="Sobre" descricao="Quem escreve este blog e o que você encontra aqui.">
+  <section class="largo cab">
+    <p class="rotulo">[ Sobre ]</p>
+    <h1>Victor Soares, engenheiro de software.</h1>
+  </section>
+  <div class="largo"><hr class="traco" /></div>
+  <div class="largo grade">
+    <p class="rotulo">[ Quem escreve ]</p>
+    <div class="prosa">
+      <p>
+        Trabalho com .NET desde o começo dos anos 2000 e passei boa parte da carreira em sistemas onde um erro custa
+        dinheiro: securitização, banco, seguros, remessas internacionais e identidade digital.
+      </p>
+      <p>
+        Hoje construo integrações para o mercado de capitais com .NET e AWS serverless, e uso IA todos os dias, do
+        planejamento à refatoração. Também acompanho e oriento devs backend no time.
+      </p>
+    </div>
+    <p class="rotulo">[ O que tem aqui ]</p>
+    <ul class="temas">
+      {Object.entries(CATEGORIAS).map(([slug, c]) => (
+        <li><a href={`/categorias/${slug}/`}>{c.nome}</a><span>{c.descricao}</span></li>
+      ))}
+    </ul>
+    <p class="rotulo">[ Como escrevo ]</p>
+    <div class="prosa">
+      <p>
+        Cada texto parte de uma notícia com fonte e traz a minha opinião sobre ela: o que eu concordo, o que me
+        incomoda e o que já vi dar certo ou errado na prática. Quando algo tem trade-off, eu mostro.
+      </p>
+      <p>Os mesmos temas saem no meu <a href={SITE.linkedin} rel="me noopener" target="_blank">LinkedIn</a>, numa versão mais curta. É lá que a conversa costuma acontecer.</p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .cab { padding-top: 4rem; padding-bottom: 2.5rem; }
+  h1 {
+    font-family: var(--display); font-weight: 800; text-transform: uppercase; margin: 0.6rem 0 0; max-width: 56rem;
+    font-size: clamp(2.4rem, 6.8vw, 5rem); line-height: 0.92; letter-spacing: -0.045em;
+  }
+  .grade { display: grid; gap: 1rem 2rem; padding-top: 2.5rem; }
+  .grade > .rotulo { margin: 0.4rem 0 0; }
+  .grade > .rotulo:not(:first-child) { margin-top: 2rem; }
+  @media (min-width: 820px) {
+    .grade { grid-template-columns: 1fr 2fr; }
+    .grade > .rotulo:not(:first-child) { margin-top: 0.4rem; }
+    .grade > * + .rotulo { padding-top: 0; }
+    .grade > .prosa, .grade > .temas { margin-bottom: 2.5rem; }
+  }
+  .grade .prosa { max-width: var(--leitura); }
+  .temas { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--linha); max-width: var(--leitura); }
+  .temas li { display: grid; gap: 0.15rem; padding: 0.8rem 0; border-bottom: 1px solid var(--linha); }
+  .temas a { font-family: var(--display); font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+  .temas a:hover { box-shadow: inset 0 -0.4em 0 var(--acento); }
+  .temas span { color: var(--grafite); font-size: 0.95rem; }
+</style>

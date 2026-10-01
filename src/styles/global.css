@@ -1,0 +1,92 @@
+:root {
+  --papel: #FAFAF8;
+  --tinta: #0E0E0E;
+  --grafite: #2E2E2C;
+  --cinza: #77776F;
+  --linha: #DADAD5;
+  --cinza-claro: #EEEEEA;
+  --acento: #FFC400;
+  --sobre-acento: #0E0E0E; /* cor do texto quando o fundo é o acento */
+  --display: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+  --largo: 76rem;
+  --leitura: 42rem;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+::selection { background: var(--acento); color: var(--sobre-acento); }
+:focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
+
+.largo { width: 100%; max-width: var(--largo); margin: 0 auto; padding: 0 1rem; }
+@media (min-width: 720px) { .largo { padding: 0 2rem; } }
+.leitura { width: 100%; max-width: var(--leitura); margin: 0 auto; padding: 0 1rem; }
+
+/* Rótulos em fonte mono, estilo [ LEGENDA ] */
+.rotulo {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+.rotulo a { color: var(--tinta); text-decoration: none; }
+.rotulo a:hover { box-shadow: inset 0 -0.45em 0 var(--acento); }
+
+/* Linha fina, "ponta de lápis" */
+.traco { border: 0; border-top: 1px solid var(--tinta); margin: 0; }
+
+/* Etiquetas de categoria */
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; margin: 0; }
+.chips a {
+  display: inline-block; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em;
+  text-transform: uppercase; text-decoration: none; color: var(--tinta);
+  border: 1px solid var(--tinta); padding: 0.25rem 0.55rem; line-height: 1.2;
+}
+.chips a:hover, .chips a[aria-current='page'] { background: var(--tinta); color: var(--papel); }
+
+/* Texto dos artigos */
+.prosa { font-size: 1.1rem; line-height: 1.75; color: var(--grafite); }
+.prosa > * + * { margin-top: 1.2em; }
+.prosa p, .prosa ul, .prosa ol { margin-bottom: 0; }
+.prosa h2 {
+  font-family: var(--display); color: var(--tinta); font-weight: 700;
+  font-size: 1.6rem; line-height: 1.2; letter-spacing: -0.02em;
+  margin: 2.4em 0 0.3em; padding-top: 1.1em; border-top: 1px solid var(--linha);
+}
+.prosa h3 { font-family: var(--display); color: var(--tinta); font-size: 1.25rem; margin: 1.8em 0 0.2em; }
+.prosa strong { color: var(--tinta); font-weight: 600; }
+.prosa a { color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; word-break: break-word; }
+.prosa a:hover { text-decoration: none; background: var(--acento); }
+.prosa ul, .prosa ol { padding-left: 1.3em; }
+.prosa li + li { margin-top: 0.45em; }
+.prosa ul { list-style: none; padding-left: 1.2em; }
+.prosa ul li { position: relative; }
+.prosa ul li::before {
+  content: ''; position: absolute; left: -1.15em; top: 0.72em;
+  width: 0.5em; height: 1px; background: var(--tinta);
+}
+.prosa ol li::marker { font-family: var(--mono); font-size: 0.85em; color: var(--cinza); }
+.prosa blockquote { margin-left: 0; padding-left: 1.1em; border-left: 3px solid var(--acento); color: var(--tinta); }
+.prosa hr { border: 0; border-top: 1px solid var(--linha); margin: 3em 0; }
+.prosa code {
+  font-family: var(--mono); font-size: 0.86em; background: var(--cinza-claro);
+  padding: 0.12em 0.35em;
+}
+.prosa pre { font-size: 0.88rem; line-height: 1.55; padding: 1rem; overflow-x: auto; border: 1px solid var(--tinta); }
+.prosa pre code { background: none; padding: 0; }
+.prosa table { border-collapse: collapse; width: 100%; font-size: 0.95rem; display: block; overflow-x: auto; }
+.prosa th, .prosa td { border-bottom: 1px solid var(--linha); padding: 0.5em 0.7em; text-align: left; }
+.prosa th { font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }

@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import Grade from '../../components/Grade.astro';
+import { postsPublicados } from '../../posts';
+import { CATEGORIAS, type Categoria } from '../../site';
+
+export function getStaticPaths() {
+  return Object.keys(CATEGORIAS).map((categoria) => ({ params: { categoria } }));
+}
+const categoria = Astro.params.categoria as Categoria;
+const info = CATEGORIAS[categoria];
+const todos = await postsPublicados();
+const posts = todos.filter((p) => p.data.categoria === categoria);
+---
+<Base titulo={info.nome} descricao={info.descricao}>
+  <section class="largo cab">
+    <p class="rotulo"><a href="/categorias/">[ Categorias ]</a></p>
+    <h1>{info.nome}</h1>
+    <p class="desc">{info.descricao}</p>
+  </section>
+  <div class="largo barra">
+    <ul class="chips" aria-label="Categorias">
+      {Object.entries(CATEGORIAS).map(([slug, c]) => (
+        <li><a href={`/categorias/${slug}/`} aria-current={slug === categoria ? 'page' : undefined}>{c.nome}</a></li>
+      ))}
+    </ul>
+  </div>
+  <div class="largo">
+    <hr class="traco" />
+    {posts.length === 0
+      ? <p class="vazio rotulo">Ainda não há artigos nesta categoria.</p>
+      : <Grade posts={posts} todos={todos} />}
+  </div>
+</Base>
+
+<style>
+  .cab { padding-top: 4rem; padding-bottom: 2rem; }
+  h1 {
+    font-family: var(--display); font-weight: 800; text-transform: uppercase; margin: 0.6rem 0 0;
+    font-size: clamp(2.3rem, 6.5vw, 4.6rem); line-height: 0.92; letter-spacing: -0.045em;
+  }
+  .desc { color: var(--grafite); margin: 1.2rem 0 0; max-width: 36rem; }
+  .barra { padding-bottom: 0.9rem; }
+  .vazio { padding: 2rem 0; }
+</style>

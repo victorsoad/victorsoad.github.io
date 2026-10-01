@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ItemPost from './ItemPost.astro';
+// `todos` = lista completa (mais recente primeiro), usada para numerar os posts de forma fixa
+interface Props { posts: CollectionEntry<'posts'>[]; todos: CollectionEntry<'posts'>[] }
+const { posts, todos } = Astro.props;
+const numero = (p: CollectionEntry<'posts'>) => todos.length - todos.findIndex((t) => t.id === p.id);
+---
+<div class="moldura">
+  <div class="grade">
+    {posts.map((post) => <ItemPost post={post} numero={numero(post)} />)}
+  </div>
+</div>
+
+<style>
+  /* Linhas finas entre colunas: cada card tem borda à esquerda e a moldura esconde a da 1ª coluna */
+  .moldura { overflow: hidden; }
+  .grade { display: grid; grid-template-columns: 1fr; }
+  .grade > :global(*) { padding: 1.75rem 0; border-top: 1px solid var(--linha); }
+  @media (min-width: 640px) {
+    .grade { grid-template-columns: repeat(2, 1fr); margin: -1px -1.5rem 0 calc(-1.5rem - 1px); }
+    .grade > :global(*) { padding: 1.75rem 1.5rem 2rem; border-left: 1px solid var(--linha); }
+  }
+  @media (min-width: 980px) { .grade { grid-template-columns: repeat(3, 1fr); } }
+</style>

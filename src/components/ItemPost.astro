@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Capa from './Capa.astro';
+import { CATEGORIAS, formatarData } from '../site';
+interface Props { post: CollectionEntry<'posts'>; numero: number; destaque?: boolean }
+const { post, numero, destaque = false } = Astro.props;
+const { titulo, data, categoria, resumo } = post.data;
+const url = `/posts/${post.id}/`;
+---
+<article class:list={['item', { destaque }]}>
+  <a href={url} class="capa-link" tabindex="-1" aria-hidden="true"><Capa categoria={categoria} numero={numero} grande={destaque} /></a>
+  <div class="texto">
+    <p class="rotulo meta">
+      <a href={`/categorias/${categoria}/`}>{CATEGORIAS[categoria].nome}</a>
+      <span aria-hidden="true">/</span>
+      <time datetime={data.toISOString()}>{formatarData(data)}</time>
+    </p>
+    <h2><a href={url}>{titulo}</a></h2>
+    {destaque && <p class="resumo">{resumo}</p>}
+    {destaque && <a class="ler rotulo" href={url}>Ler artigo →</a>}
+  </div>
+</article>
+
+<style>
+  .item { display: grid; gap: 0.9rem; align-content: start; }
+  .meta { margin: 0; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  h2 {
+    font-family: var(--display); font-weight: 700; letter-spacing: -0.015em;
+    font-size: 1.2rem; line-height: 1.25; margin: 0.35rem 0 0;
+  }
+  h2 a { text-decoration: none; }
+  h2 a:hover { box-shadow: inset 0 -0.4em 0 var(--acento); }
+  .capa-link { display: block; }
+  .capa-link:hover + .texto h2 a { box-shadow: inset 0 -0.4em 0 var(--acento); }
+
+  .destaque { gap: 1.5rem; }
+  @media (min-width: 820px) {
+    .destaque { grid-template-columns: 1.25fr 1fr; gap: 2.5rem; align-items: end; }
+  }
+  .destaque h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); line-height: 1.1; letter-spacing: -0.03em; margin-top: 0.6rem; }
+  .resumo { color: var(--grafite); margin: 1rem 0 1.25rem; }
+  .ler { color: var(--tinta); text-decoration: none; border-bottom: 1px solid var(--tinta); padding-bottom: 2px; }
+  .ler:hover { box-shadow: inset 0 -0.5em 0 var(--acento); }
+</style>

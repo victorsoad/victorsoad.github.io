@@ -1,0 +1,55 @@
+---
+// Capa tipográfica gerada para cada post: fundo cinza claro, linhas finas
+// e uma forma geométrica em amarelo que muda conforme a categoria.
+import { CATEGORIAS, type Categoria } from '../site';
+interface Props { categoria: Categoria; numero: number; grande?: boolean }
+const { categoria, numero, grande = false } = Astro.props;
+const n = String(numero).padStart(2, '0');
+---
+<div class:list={['capa', { grande }]} aria-hidden="true">
+  <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id={`p-${categoria}-${numero}`} width="20" height="20" patternUnits="userSpaceOnUse">
+        <path d="M20 0H0V20" fill="none" stroke="#0E0E0E" stroke-opacity=".07" stroke-width="1" />
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="#EEEEEA" />
+    <rect width="400" height="300" fill={`url(#p-${categoria}-${numero})`} />
+    {categoria === 'ia' && (
+      <g><circle cx="270" cy="140" r="78" class="ac" /><circle cx="270" cy="140" r="104" fill="none" stroke="#0E0E0E" /></g>
+    )}
+    {categoria === 'desenvolvimento' && (
+      <g><rect x="200" y="70" width="120" height="120" class="ac" /><rect x="220" y="90" width="120" height="120" fill="none" stroke="#0E0E0E" /></g>
+    )}
+    {categoria === 'fintech' && (
+      <g><path d="M190 230V150a80 80 0 0 1 160 0v80z" class="ac" /><line x1="150" y1="230" x2="380" y2="230" stroke="#0E0E0E" /></g>
+    )}
+    {categoria === 'carreira' && (
+      <g>
+        <rect x="200" y="170" width="40" height="60" class="ac" /><rect x="240" y="130" width="40" height="100" class="ac" />
+        <rect x="280" y="90" width="40" height="140" class="ac" />
+        <polyline points="190,230 190,170 230,170 230,130 270,130 270,90 330,90" fill="none" stroke="#0E0E0E" />
+      </g>
+    )}
+    {categoria === 'regulatorio' && (
+      <g>
+        <rect x="210" y="70" width="110" height="150" class="ac" />
+        {[100, 120, 140, 160, 180].map((y) => <line x1="228" y1={y} x2="302" y2={y} stroke="#0E0E0E" />)}
+        <rect x="190" y="55" width="110" height="150" fill="none" stroke="#0E0E0E" />
+      </g>
+    )}
+  </svg>
+  <span class="num">[ {n} ]</span>
+</div>
+
+<style>
+  .capa { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--cinza-claro); }
+  .ac { fill: var(--acento); }
+  svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .num, .cat { position: absolute; left: 0.9rem; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .num { top: 0.8rem; }
+  .cat { bottom: 0.8rem; }
+  .grande .num, .grande .cat { font-size: 0.75rem; left: 1.2rem; }
+  .grande .num { top: 1.1rem; }
+  .grande .cat { bottom: 1.1rem; }
+</style>

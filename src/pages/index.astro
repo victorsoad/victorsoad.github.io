@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import ItemPost from '../components/ItemPost.astro';
+import Grade from '../components/Grade.astro';
+import { postsPublicados } from '../posts';
+import { CATEGORIAS } from '../site';
+const posts = await postsPublicados();
+const [primeiro, ...resto] = posts;
+---
+<Base>
+  <section class="largo hero">
+    <p class="rotulo">[ Blog ]</p>
+    <div class="titulo">
+      <h1>Engenharia de software, IA e mercado financeiro.</h1>
+      <p class="sub">
+        Notícia com fonte e opinião de quem constrói sistemas onde erro custa dinheiro. Com os trade-offs e o que não
+        funciona.
+      </p>
+    </div>
+  </section>
+
+  <div class="largo barra">
+    <p class="rotulo">{posts.length} {posts.length === 1 ? 'artigo' : 'artigos'}</p>
+    <ul class="chips" aria-label="Categorias">
+      {Object.entries(CATEGORIAS).map(([slug, c]) => <li><a href={`/categorias/${slug}/`}>{c.nome}</a></li>)}
+    </ul>
+  </div>
+  <div class="largo"><hr class="traco" /></div>
+
+  {primeiro ? (
+    <section class="largo" aria-label="Artigos">
+      <div class="destaque"><ItemPost post={primeiro} numero={posts.length} destaque /></div>
+      {resto.length > 0 && (
+        <>
+          <p class="rotulo mais">[ Mais artigos ]</p>
+          <Grade posts={resto} todos={posts} />
+        </>
+      )}
+    </section>
+  ) : (
+    <p class="largo rotulo">Nenhum artigo ainda.</p>
+  )}
+</Base>
+
+<style>
+  .hero { display: grid; gap: 1rem; padding-top: 4rem; padding-bottom: 3rem; }
+  @media (min-width: 820px) { .hero { grid-template-columns: 1fr 2fr; padding-top: 6rem; padding-bottom: 4rem; } }
+  .hero > .rotulo { margin: 0.6rem 0 0; }
+  h1 {
+    font-family: var(--display); font-weight: 800; text-transform: uppercase;
+    font-size: clamp(2.5rem, 7.2vw, 5.4rem); line-height: 0.92; letter-spacing: -0.045em; margin: 0;
+  }
+  .sub { color: var(--grafite); max-width: 32rem; margin: 1.6rem 0 0; font-size: 1.05rem; }
+  .barra { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; padding-bottom: 0.9rem; }
+  .barra .rotulo { margin: 0; }
+  .destaque { padding: 2rem 0 3rem; }
+  .mais { margin: 0; padding: 1.25rem 0 1rem; border-top: 1px solid var(--tinta); }
+</style>

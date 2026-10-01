@@ -1,0 +1,76 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { postsPublicados } from '../../posts';
+import { CATEGORIAS, SITE, formatarData } from '../../site';
+
+export async function getStaticPaths() {
+  const posts = await postsPublicados();
+  return posts.map((post, i) => ({ params: { slug: post.id }, props: { post, numero: posts.length - i } }));
+}
+const { post, numero } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const urlPost = new URL(`/posts/${post.id}/`, Astro.site).toString();
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.titulo,
+  description: d.meta_description,
+  datePublished: d.data.toISOString(),
+  inLanguage: 'pt-BR',
+  keywords: [d.palavra_chave, ...d.palavras_secundarias].join(', '),
+  author: { '@type': 'Person', name: 'Victor Soares', url: SITE.linkedin },
+  mainEntityOfPage: urlPost,
+};
+const compartilhar = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(urlPost)}`;
+const n = String(numero).padStart(2, '0');
+---
+<Base titulo={d.titulo_seo} descricao={d.meta_description} tipo="article" publicado={d.data}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <article>
+    <header class="largo cab">
+      <div class="meta rotulo">
+        <span>[ {n} ]</span>
+        <a href={`/categorias/${d.categoria}/`}>{CATEGORIAS[d.categoria].nome}</a>
+        <time datetime={d.data.toISOString()}>{formatarData(d.data)}</time>
+      </div>
+      <h1>{d.titulo}</h1>
+    </header>
+    <div class="largo"><hr class="traco" /></div>
+    <div class="leitura corpo">
+      <p class="resumo">{d.resumo}</p>
+      <div class="prosa"><Content /></div>
+      <footer class="fim">
+        <p class="rotulo">[ Continue a conversa ]</p>
+        <p class="acoes">
+          {d.linkedin && <a href={d.linkedin} target="_blank" rel="noopener">Comentar no LinkedIn ↗</a>}
+          <a href={compartilhar} target="_blank" rel="noopener">Compartilhar ↗</a>
+          <a href="/">Mais artigos →</a>
+        </p>
+      </footer>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .cab { padding-top: 4rem; padding-bottom: 2.5rem; }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-bottom: 1.5rem; }
+  h1 {
+    font-family: var(--display); font-weight: 800; margin: 0; max-width: 60rem;
+    font-size: clamp(2.1rem, 5.6vw, 4.2rem); line-height: 0.98; letter-spacing: -0.04em;
+  }
+  .corpo { padding-top: 2.5rem; }
+  .resumo {
+    font-family: var(--display); font-weight: 500; font-size: 1.3rem; line-height: 1.45;
+    letter-spacing: -0.01em; margin: 0 0 2.5rem; padding-left: 1.1rem; border-left: 4px solid var(--acento);
+  }
+  .fim { margin-top: 4rem; padding-top: 1.25rem; border-top: 1px solid var(--tinta); }
+  .fim .rotulo { margin: 0 0 0.8rem; }
+  .acoes { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0; }
+  .acoes a {
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; border: 1px solid var(--tinta); padding: 0.5rem 0.8rem;
+  }
+  .acoes a:hover { background: var(--tinta); color: var(--papel); }
+</style>

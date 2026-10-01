@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import { postsPublicados } from '../../posts';
+import { CATEGORIAS, type Categoria } from '../../site';
+const posts = await postsPublicados();
+const total = (c: Categoria) => posts.filter((p) => p.data.categoria === c).length;
+const lista = Object.entries(CATEGORIAS) as [Categoria, (typeof CATEGORIAS)[Categoria]][];
+---
+<Base titulo="Categorias" descricao="Os cinco temas do blog: IA, desenvolvimento, fintech, carreira e regulatório.">
+  <section class="largo cab">
+    <p class="rotulo">[ Índice ]</p>
+    <h1>Categorias</h1>
+  </section>
+  <div class="largo">
+    <ol class="lista">
+      {lista.map(([slug, c], i) => (
+        <li>
+          <span class="rotulo">[ 0{i + 1} ]</span>
+          <a href={`/categorias/${slug}/`}>{c.nome}</a>
+          <p>{c.descricao}</p>
+          <span class="rotulo qtd">{total(slug)} {total(slug) === 1 ? 'artigo' : 'artigos'}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>
+
+<style>
+  .cab { padding-top: 4rem; padding-bottom: 2rem; }
+  h1 {
+    font-family: var(--display); font-weight: 800; text-transform: uppercase; margin: 0.6rem 0 0;
+    font-size: clamp(2.5rem, 7vw, 5rem); line-height: 0.92; letter-spacing: -0.045em;
+  }
+  .lista { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--tinta); }
+  li { display: grid; gap: 0.3rem 1.5rem; padding: 1.4rem 0; border-bottom: 1px solid var(--linha); align-items: baseline; }
+  @media (min-width: 820px) { li { grid-template-columns: 5rem 1.2fr 2fr 7rem; } .qtd { text-align: right; } }
+  li a {
+    font-family: var(--display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em;
+    text-decoration: none; line-height: 1.2;
+  }
+  li a:hover { box-shadow: inset 0 -0.4em 0 var(--acento); }
+  li p { margin: 0; color: var(--grafite); }
+</style>
