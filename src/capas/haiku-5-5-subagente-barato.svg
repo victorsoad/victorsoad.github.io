@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" font-family="IBM Plex Mono, monospace">
+  <!-- modelo grande: painel que decide -->
+  <rect x="215" y="40" width="150" height="90" rx="4" fill="#FAFAF8" stroke="#0E0E0E" stroke-width="1.5"/>
+  <line x1="230" y1="62" x2="320" y2="62" stroke="#77776F" stroke-width="1"/>
+  <line x1="230" y1="76" x2="300" y2="76" stroke="#77776F" stroke-width="1"/>
+  <rect x="230" y="92" width="70" height="20" rx="2" fill="#FFC400" stroke="#0E0E0E" stroke-width="1"/>
+  <path d="M236 102 l5 5 l10 -10" stroke="#0E0E0E" stroke-width="1.5"/>
+  <text x="215" y="30" font-size="8" fill="#0E0E0E">[ DECIDE ]</text>
+  <!-- subagentes pequenos -->
+  <g stroke="#0E0E0E" stroke-width="1" fill="#FAFAF8">
+    <rect x="150" y="200" width="56" height="40" rx="3"/>
+    <rect x="222" y="200" width="56" height="40" rx="3"/>
+    <rect x="294" y="200" width="56" height="40" rx="3"/>
+  </g>
+  <g stroke="#B9B9B3" stroke-width="1">
+    <line x1="160" y1="214" x2="196" y2="214"/><line x1="160" y1="224" x2="186" y2="224"/>
+    <line x1="232" y1="214" x2="268" y2="214"/><line x1="232" y1="224" x2="258" y2="224"/>
+    <line x1="304" y1="214" x2="340" y2="214"/><line x1="304" y1="224" x2="330" y2="224"/>
+  </g>
+  <text x="150" y="258" font-size="8" fill="#0E0E0E">[ EXECUTAM ]</text>
+  <!-- setas de resumo subindo -->
+  <g stroke="#77776F" stroke-width="1" stroke-dasharray="3 3">
+    <path d="M178 198 L250 134"/>
+    <path d="M250 198 L280 134"/>
+    <path d="M322 198 L310 134"/>
+  </g>
+  <g fill="#77776F">
+    <path d="M250 134 l-6 2 l3 3 z"/>
+    <path d="M280 134 l-4 4 l4 1 z"/>
+    <path d="M310 134 l-1 5 l4 -2 z"/>
+  </g>
+</svg>
