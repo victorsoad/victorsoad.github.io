@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" font-family="IBM Plex Mono, monospace">
+  <!-- pasta da skill -->
+  <path d="M150 110 h40 l10 10 h60 v80 h-110 z" fill="#FAFAF8" stroke="#0E0E0E" stroke-width="1.5"/>
+  <rect x="166" y="134" width="78" height="52" fill="#FFC400" stroke="#0E0E0E" stroke-width="1.2"/>
+  <line x1="176" y1="148" x2="232" y2="148" stroke="#0E0E0E" stroke-width="1"/>
+  <line x1="176" y1="158" x2="226" y2="158" stroke="#0E0E0E" stroke-width="1"/>
+  <line x1="176" y1="168" x2="214" y2="168" stroke="#0E0E0E" stroke-width="1"/>
+  <text x="205" y="217" font-size="8" fill="#0E0E0E" text-anchor="middle">[ SKILL.MD ]</text>
+  <!-- agentes que leem -->
+  <g stroke="#0E0E0E" stroke-width="1.2" fill="#FAFAF8">
+    <rect x="300" y="60" width="56" height="34"/>
+    <rect x="316" y="134" width="56" height="34"/>
+    <rect x="300" y="208" width="56" height="34"/>
+  </g>
+  <g fill="#77776F">
+    <circle cx="316" cy="77" r="3"/><circle cx="332" cy="151" r="3"/><circle cx="316" cy="225" r="3"/>
+  </g>
+  <g stroke="#B9B9B3" stroke-width="1"><line x1="326" y1="77" x2="346" y2="77"/><line x1="342" y1="151" x2="362" y2="151"/><line x1="326" y1="225" x2="346" y2="225"/></g>
+  <g stroke="#77776F" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="260" y1="140" x2="300" y2="80"/>
+    <line x1="260" y1="160" x2="316" y2="151"/>
+    <line x1="260" y1="180" x2="300" y2="222"/>
+  </g>
+  <text x="328" y="262" font-size="8" fill="#0E0E0E" text-anchor="middle">[ QUALQUER AGENTE ]</text>
+</svg>
